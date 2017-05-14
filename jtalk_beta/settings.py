@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 import dj_database_url
 
+# set DATABASE_URL and DJANGO_SECRET_KEY environment variables
+# this does nothing if we are in the heroku environment, which is
+# detected by the presence of config:get ON_HEROKU
+import local_settings
+local_settings.set_environment_variables_if_not_on_heroku()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -21,10 +27,10 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "ctjfd$e!uf68epu20_zp*7rzvx$*v3(7&#gzwktl)ow2_1!*1b"
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
